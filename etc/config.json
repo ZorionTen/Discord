@@ -1,0 +1,18 @@
+{
+  "bot": {
+    "auth_key": "OTczNDYzNzE1NzAzODMyNTk4.GpARnX.bY4adjS94lnZW885hIL5c2hz1jYhr0h4x04yYw",
+    "client": "973463715703832598",
+    "secret": "jiz6BG1q7o9m2IpnIdRfE-q29snu_MJd",
+    "agent": "DiscordBot (https://discord.com, 10)",
+    "code": "lvRqMXziEg2eHo1ohR2BAsFLIviS5l",
+    "token": {
+      "access_token": "n1ZhW4GqxdjO5TFooa61SehTpLNCvm",
+      "expires_in": 604800,
+      "refresh_token": "7DatHmPtZLwzuWR9MCWs3uWmBMoj4y",
+      "scope": "connections guilds guilds.members.read guilds.join email identify messages.read",
+      "token_type": "Bearer",
+      "guild": ["972365717599055903"]
+    }
+  },
+  "redirect": "http://localhost:8000/index.php/bot/getToken"
+}

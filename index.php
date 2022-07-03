@@ -11,15 +11,23 @@ function loader($class){
 }
 spl_autoload_register("loader");
 
-$url = $_SERVER["REQUEST_URI"];
-$url_arry = explode("/", $url);
-$controller = $url_array[1] ?? "index";
-$action = $url_array[2] ?? "index";
+define("ROOT",__DIR__);
+
+$url = explode("?",$_SERVER["REQUEST_URI"])[0];
+$url_array = explode("/", $url);
+$controller = $url_array[2] ?? "index";
+$action = $url_array[3] ?? "index";
 $controller=ucwords($controller);
+
+// print_r($url_array);
 
 if (file_exists("Controllers/${controller}.php")) {
     $controller="Controllers\\".$controller;
-    (new $controller)->$action();
+    $class=new $controller;
+    $class->config=new Libs\Config();
+    echo "<pre>";
+    $class->$action();
+    echo "</pre>";
 } else {
     die("404 ${url}");
 }

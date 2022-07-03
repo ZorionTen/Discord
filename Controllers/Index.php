@@ -2,7 +2,7 @@
 namespace Controllers;
 class Index{
     function index(){
-        echo "test";
+        echo "<br>";
         die(__METHOD__);
     }
 }
