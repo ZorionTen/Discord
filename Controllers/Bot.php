@@ -20,14 +20,57 @@ class Bot
     }
     function action()
     {
-        $path = "/users/@me/guilds";
-        echo $this->url . $path . PHP_EOL;
-        $header = [];
-        $header = [
+        if (!$this->getChannels()) {
+            echo "FAIL ".__METHOD__.PHP_EOL;
+            return false;
+        }
+        $channel=$this->data->getByIndex("channels",0);
+        $path="/channels/${channel}/messages";
+        $content=[
+            "content"=>$_GET['m']??"ping"
+        ];
+        $data = Curl::call_json($this->url . $path, "POST", $content, $this->header, null);
+        print_r($data);
+    }
+    function getChannels()
+    {
+        if (!$this->getGuilds()) {
+            echo "FAIL".__METHOD__.PHP_EOL;
+            return false;
+        }
+        $guild = $this->data->getByIndex("guilds", 0);
+        $url = $this->url . "/guilds/${guild}/channels";
+        $data = Curl::call_json($url, null, null, $this->header, null);
+        if (isset($data['message'])) {
+            print_r($data);
+            return false;
+        }
+        $channels = [];
+        foreach ($data as $i) {
+            if ($i["type"] == 0) {
+                $channels[$i["name"]] = $i["id"];
+            }
+        }
+        $this->data->set('channels', $channels);
+        return true;
+    }
+    function getGuilds()
+    {
+        $this->header = [
             "Authorization: Bot " . base64_decode($this->config->get("bot")["auth_key"]),
         ];
-        $data = Curl::call_json($this->url . $path, "GET", null, $header, null);
-        print_r($data);
+        $path = "/users/@me/guilds";
+        $data = Curl::call_json($this->url . $path, null, null, $this->header, null);
+        if (isset($data['message'])) {
+            print_r($data);
+            return false;
+        }
+        $guilds = [];
+        foreach ($data as $i) {
+            $guilds[$i['name']] = $i['id'];
+        }
+        $this->data->set("guilds", $guilds);
+        return true;
     }
     function startAuth()
     {
@@ -40,7 +83,7 @@ class Bot
             "response_type" => "code",
             "permissions" => 8
         ];
-        $scope = "guilds guilds.join guilds.members.read messages.read identify bot";
+        $scope = $this->config->get('scopes');
         $url = "https://discord.com/api/oauth2/authorize?scope=" . str_replace("+", "%20", urlencode($scope)) . "&" . http_build_query($data);
         echo $url;
         header("location: $url");
@@ -62,7 +105,7 @@ class Bot
         $token['guild'] = [];
         $token['guild'][] = $guild_id;
         $config['token'] = $token;
-        $this->config->set("bot", $config);
+        $this->data->set("bot", $config);
         print_r($token);
         header("location: /index.php/bot/index");
     }
