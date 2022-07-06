@@ -6,7 +6,7 @@ class Model
 {
     public function __construct()
     {
-        $this->file = ROOT . "/etc/data.json";
+        $this->file = MODULE . "/etc/data.json";
         $this->data = json_decode(file_get_contents($this->file), true);
     }
     public function get($key = null)

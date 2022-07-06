@@ -1,0 +1,7 @@
+{
+  "bot": {
+    "auth_key": "NTM1Mzk0MTgzMTpBQUZzWnpfdmJZZnpjM0hSMGpfc3c1SzRnbDJITDhxUkswZw=="
+  },
+  "redirect": "http://localhost:8000/index.php/telegram/bot/getToken",
+  "scopes": "guilds guilds.join guilds.members.read messages.read identify bot"
+}

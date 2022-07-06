@@ -10,6 +10,11 @@ class Bot
     {
         $this->url = "https://discord.com/api/v10";
     }
+    function init(){
+        $this->header = [
+            "Authorization: Bot " . base64_decode($this->config->get("bot")["auth_key"]),
+        ];
+    }
     function index()
     {
         print_r($this->config->get("bot"));
@@ -20,17 +25,19 @@ class Bot
     }
     function action()
     {
-        if (!$this->getChannels()) {
-            echo "FAIL ".__METHOD__.PHP_EOL;
-            return false;
-        }
+        echo json_encode(['success']);
+        // if (!$this->getChannels()) {
+        //     echo "FAIL ".__METHOD__.PHP_EOL;
+        //     return false;
+        // }
         $channel=$this->data->getByIndex("channels",0);
         $path="/channels/${channel}/messages";
         $content=[
             "content"=>$_GET['m']??"ping"
         ];
         $data = Curl::call_json($this->url . $path, "POST", $content, $this->header, null);
-        print_r($data);
+        // print_r($data);
+        // echo json_encode($data);
     }
     function getChannels()
     {
@@ -56,9 +63,6 @@ class Bot
     }
     function getGuilds()
     {
-        $this->header = [
-            "Authorization: Bot " . base64_decode($this->config->get("bot")["auth_key"]),
-        ];
         $path = "/users/@me/guilds";
         $data = Curl::call_json($this->url . $path, null, null, $this->header, null);
         if (isset($data['message'])) {

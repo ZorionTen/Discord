@@ -6,7 +6,7 @@ class Config
 {
     public function __construct()
     {
-        $this->file=ROOT."/etc/config.json";
+        $this->file=MODULE."/etc/config.json";
         $this->config = json_decode(file_get_contents($this->file),true);
     }
     public function get($key = null)

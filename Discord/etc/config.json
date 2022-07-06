@@ -6,6 +6,6 @@
     "agent": "DiscordBot (https://discord.com, 10)",
     "code": "lvRqMXziEg2eHo1ohR2BAsFLIviS5l"
   },
-  "redirect": "http://localhost:8000/index.php/bot/getToken",
+  "redirect": "http://localhost:8000/index.php/discord/bot/getToken",
   "scopes": "guilds guilds.join guilds.members.read messages.read identify bot"
 }
