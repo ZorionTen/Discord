@@ -47,7 +47,7 @@ class Bot
     }
     function setHook(){
         $this->init();
-        $hook="https://f565-103-28-159-217.ngrok.io/index,php/Telegram/bot/updates";
+        $hook=BASE_URI."/index,php/Telegram/bot/updates";
         $path="/setWebhook";
         echo Curl::call($this->url.$path.'?url='.urlencode($hook));
     }
