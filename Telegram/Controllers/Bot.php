@@ -34,6 +34,10 @@ class Bot
         echo BASE_URI;
         echo Curl::call(BASE_URI."/index.php/discord/bot/action?m=test");
     }
+    function getWebhook(){
+        $data=Curl::call_json($this->url."/getWebhookInfo");
+        print_r($data);
+    }
     function updates(){
         $post=file_get_contents('php://input');
         if($post!=""){
@@ -51,7 +55,7 @@ class Bot
     }
     function setHook(){
         $this->init();
-        $hook=BASE_URI."/index,php/Telegram/bot/updates";
+        $hook=BASE_URI."/index.php/Telegram/bot/updates";
         $path="/setWebhook";
         echo Curl::call($this->url.$path.'?url='.urlencode($hook));
     }
