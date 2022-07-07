@@ -31,9 +31,9 @@ class Bot
         print_r($data);
     }
     function runCommand($text=''){
-        $text=str_replace('/post ',"",$text);
+        $text=urlencode(base64_encode(str_replace('/post ',"",$text)));
         // $this->logger->write("PRINT: ".$text);
-        echo Curl::call(BASE_URI."/index.php/discord/bot/action?m=test");
+        echo Curl::call(BASE_URI."/index.php/discord/bot/action?m=${text}");
     }
     function getWebhook(){
         $data=Curl::call_json($this->url."/getWebhookInfo");

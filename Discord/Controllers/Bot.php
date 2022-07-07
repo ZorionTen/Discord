@@ -25,15 +25,15 @@ class Bot
     }
     function action()
     {
-        echo json_encode(['success']);
         $channel=$this->data->getByIndex("channels",0);
         $path="/channels/${channel}/messages";
         $content=[
-            "content"=>$_GET['m']??"ping"
+            "content"=>base64_decode($_GET['m']??base64_encode("ping"));
         ];
         $data = Curl::call_json($this->url . $path, "POST", $content, $this->header, null);
         // print_r($data);
         // echo json_encode($data);
+        echo json_encode(['success']);
     }
     function updateConfig(){
          if (!$this->getChannels()) {
