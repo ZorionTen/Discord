@@ -35,8 +35,8 @@ class Bot
         echo Curl::call(BASE_URI."/index.php/discord/bot/action?m=test");
     }
     function updates(){
-        $post=file_get_contents('php://input')??"NULL";
-        if($post!="NULL"){
+        $post=file_get_contents('php://input');
+        if($post!=""){
             $post=json_decode($post,true);
             $this->logger->write(json_encode($post['message']['entities']));
             $this->logger->write($post['message']['text']);
