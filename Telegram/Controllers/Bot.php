@@ -36,11 +36,13 @@ class Bot
     }
     function updates(){
         $post=file_get_contents('php://input')??"NULL";
-        $this->logger->write($post);
+        $post=json_decode($post,true);
+        $this->logger->write(json_encode($post['message']['entities']));
+        $this->logger->write($post['message']['text']);
         if($post!="NULL"){
-            $post=json_decode($post,true);
             if($post['message']['entities'] && $post['message']['entities']['type']=='bot_command')
             {
+                $this->logger->write(true);
                 $this->runCommand($post['message']['text']);
             }
         }
@@ -50,5 +52,8 @@ class Bot
         $hook=BASE_URI."/index,php/Telegram/bot/updates";
         $path="/setWebhook";
         echo Curl::call($this->url.$path.'?url='.urlencode($hook));
+    }
+    function getLogs(){
+        echo file_get_contents($this->logger->file);
     }
 }
