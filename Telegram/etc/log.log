@@ -1,10 +1,6 @@
-[18:16:17 06-07-2022] {"update_id":646013574,
-"message":{"message_id":28,"from":{"id":601236342,"is_bot":false,"first_name":"<?php die(time()) ?>","username":"ZorionTheTenth","language_code":"en"},"chat":{"id":-533091351,"title":"2 months","type":"group","all_members_are_administrators":true},"date":1657131377,"text":"d"}}
-[18:16:51 06-07-2022] {"update_id":646013575,
-"message":{"message_id":29,"from":{"id":601236342,"is_bot":false,"first_name":"<?php die(time()) ?>","username":"ZorionTheTenth","language_code":"en"},"chat":{"id":-533091351,"title":"2 months","type":"group","all_members_are_administrators":true},"date":1657131411,"text":"/post@ZedCordBot","entities":[{"offset":0,"length":16,"type":"bot_command"}]}}
-[18:25:37 06-07-2022] {"update_id":646013576,
-"message":{"message_id":30,"from":{"id":601236342,"is_bot":false,"first_name":"<?php die(time()) ?>","username":"ZorionTheTenth","language_code":"en"},"chat":{"id":-533091351,"title":"2 months","type":"group","all_members_are_administrators":true},"date":1657131937,"text":"/post@ZedCordBot","entities":[{"offset":0,"length":16,"type":"bot_command"}]}}
-[18:26:06 06-07-2022] {"update_id":646013577,
-"message":{"message_id":31,"from":{"id":601236342,"is_bot":false,"first_name":"<?php die(time()) ?>","username":"ZorionTheTenth","language_code":"en"},"chat":{"id":-533091351,"title":"2 months","type":"group","all_members_are_administrators":true},"date":1657131965,"text":"/post@ZedCordBot","entities":[{"offset":0,"length":16,"type":"bot_command"}]}}
-[18:28:14 06-07-2022] {"update_id":646013578,
-"message":{"message_id":32,"from":{"id":601236342,"is_bot":false,"first_name":"<?php die(time()) ?>","username":"ZorionTheTenth","language_code":"en"},"chat":{"id":-533091351,"title":"2 months","type":"group","all_members_are_administrators":true},"date":1657132094,"text":"/post@ZedCordBot","entities":[{"offset":0,"length":16,"type":"bot_command"}]}}
+[19:40:13 07-07-2022] /post test
+[19:40:13 07-07-2022] TRUE
+[19:40:13 07-07-2022] PRINT: /post test
+[19:42:40 07-07-2022] /post LOL
+[19:42:40 07-07-2022] TRUE
+[19:42:40 07-07-2022] PRINT: LOL
