@@ -34,21 +34,32 @@ class Bot
         echo BASE_URI;
         echo Curl::call(BASE_URI."/index.php/discord/bot/action?m=test");
     }
+    function getWebhook(){
+        $data=Curl::call_json($this->url."/getWebhookInfo");
+        print_r($data);
+    }
     function updates(){
-        $post=file_get_contents('php://input')??"NULL";
-        $this->logger->write($post);
-        if($post!="NULL"){
+        $post=file_get_contents('php://input');
+        if($post!=""){
             $post=json_decode($post,true);
+            $this->logger->write(json_encode($post['message']['entities']));
+            $this->logger->write($post['message']['text']);
             if($post['message']['entities'] && $post['message']['entities']['type']=='bot_command')
             {
+                $this->logger->write(true);
                 $this->runCommand($post['message']['text']);
             }
+        } else {
+            $this->logger->write("NULL POST");
         }
     }
     function setHook(){
         $this->init();
-        $hook=BASE_URI."/index,php/Telegram/bot/updates";
+        $hook=BASE_URI."/index.php/Telegram/bot/updates";
         $path="/setWebhook";
         echo Curl::call($this->url.$path.'?url='.urlencode($hook));
+    }
+    function getLogs(){
+        echo file_get_contents($this->logger->file);
     }
 }
