@@ -36,15 +36,17 @@ class Bot
     }
     function updates(){
         $post=file_get_contents('php://input')??"NULL";
-        $post=json_decode($post,true);
-        $this->logger->write(json_encode($post['message']['entities']));
-        $this->logger->write($post['message']['text']);
         if($post!="NULL"){
+            $post=json_decode($post,true);
+            $this->logger->write(json_encode($post['message']['entities']));
+            $this->logger->write($post['message']['text']);
             if($post['message']['entities'] && $post['message']['entities']['type']=='bot_command')
             {
                 $this->logger->write(true);
                 $this->runCommand($post['message']['text']);
             }
+        } else {
+            $this->logger->write("NULL POST");
         }
     }
     function setHook(){
