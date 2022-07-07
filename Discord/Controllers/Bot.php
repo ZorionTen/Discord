@@ -28,7 +28,7 @@ class Bot
         $channel=$this->data->getByIndex("channels",0);
         $path="/channels/${channel}/messages";
         $content=[
-            "content"=>base64_decode($_GET['m']??base64_encode("ping"));
+            "content"=>base64_decode($_GET['m']??base64_encode("ping"))
         ];
         $data = Curl::call_json($this->url . $path, "POST", $content, $this->header, null);
         // print_r($data);
