@@ -31,7 +31,8 @@ class Bot
         print_r($data);
     }
     function runCommand($text=''){
-        echo BASE_URI;
+        $text=str_replace('/post ',"",$text);
+        // $this->logger->write("PRINT: ".$text);
         echo Curl::call(BASE_URI."/index.php/discord/bot/action?m=test");
     }
     function getWebhook(){
@@ -42,11 +43,11 @@ class Bot
         $post=file_get_contents('php://input');
         if($post!=""){
             $post=json_decode($post,true);
-            $this->logger->write(json_encode($post['message']['entities']));
+            // $this->logger->write(json_encode($post['message']['entities'][0]['type']));
             $this->logger->write($post['message']['text']);
-            if($post['message']['entities'] && $post['message']['entities']['type']=='bot_command')
+            if($post['message']['entities'] && $post['message']['entities'][0]['type']=='bot_command')
             {
-                $this->logger->write(true);
+                $this->logger->write('TRUE');
                 $this->runCommand($post['message']['text']);
             }
         } else {

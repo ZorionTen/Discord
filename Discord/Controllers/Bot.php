@@ -26,10 +26,6 @@ class Bot
     function action()
     {
         echo json_encode(['success']);
-        // if (!$this->getChannels()) {
-        //     echo "FAIL ".__METHOD__.PHP_EOL;
-        //     return false;
-        // }
         $channel=$this->data->getByIndex("channels",0);
         $path="/channels/${channel}/messages";
         $content=[
@@ -38,6 +34,14 @@ class Bot
         $data = Curl::call_json($this->url . $path, "POST", $content, $this->header, null);
         // print_r($data);
         // echo json_encode($data);
+    }
+    function updateConfig(){
+         if (!$this->getChannels()) {
+            echo "FAIL ".__METHOD__.PHP_EOL;
+            return false;
+        } else {
+            echo $this->config->get();
+        }
     }
     function getChannels()
     {

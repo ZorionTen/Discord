@@ -26,8 +26,8 @@ $controller = $url_array[3] ?? "index";
 $action = $url_array[4] ?? "index";
 $controller = ucwords($controller);
 
-// define('BASE_URI','https://f565-103-28-159-217.ngrok.io');
 define('BASE_URI','https://discordintigratetelegram.herokuapp.com');
+// define('BASE_URI','https://9a24-103-28-159-217.ngrok.io');
 define('MODULE',ROOT."/".$module);
 spl_autoload_register("loader");
 // print_r($url_array);
