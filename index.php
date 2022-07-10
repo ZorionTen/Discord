@@ -2,8 +2,12 @@
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 
+define("HOSTNAME",$_SERVER["HTTP_HOST"]);
+// die(HOSTNAME);
 define("ROOT", __DIR__);
 
+require_once ROOT."/vendor/autoload.php";
+require_once ROOT."/helper.php";
 require_once ROOT."/style/main.html";
 
 function loader($class)
@@ -26,8 +30,8 @@ $controller = $url_array[3] ?? "index";
 $action = $url_array[4] ?? "index";
 $controller = ucwords($controller);
 
-define('BASE_URI','https://discordintigratetelegram.herokuapp.com');
-// define('BASE_URI','https://9a24-103-28-159-217.ngrok.io');
+// define('BASE_URI','https://discordintigratetelegram.herokuapp.com');
+define('BASE_URI',"https://".HOSTNAME);
 define('MODULE',ROOT."/".$module);
 spl_autoload_register("loader");
 // print_r($url_array);

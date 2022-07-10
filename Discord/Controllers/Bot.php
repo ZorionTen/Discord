@@ -3,6 +3,7 @@
 namespace Controllers;
 
 use Libs\Curl;
+use WebSocket\Client;
 
 class Bot
 {
@@ -10,7 +11,8 @@ class Bot
     {
         $this->url = "https://discord.com/api/v10";
     }
-    function init(){
+    function init()
+    {
         $this->header = [
             "Authorization: Bot " . base64_decode($this->config->get("bot")["auth_key"]),
         ];
@@ -23,21 +25,50 @@ class Bot
         echo "<br/>";
         echo "<a href='/index.php/bot/action'> Action </a>";
     }
+
+    /**
+     * Send a message, DONT CHANGE THE NAME. Telegram dependat on this.
+     */
     function action()
     {
-        $channel=$this->data->getByIndex("channels",0);
-        $path="/channels/${channel}/messages";
-        $content=[
-            "content"=>base64_decode($_GET['m']??base64_encode("ping"))
+        $channel = $this->data->getByIndex("channels", 0);
+        if (!$channel) {
+            $this->updateConfig();
+            $channel = $this->data->getByIndex("channels", 0);
+        }
+        $path = "/channels/${channel}/messages";
+        $content = [
+            "content" => base64_decode($_GET['m'] ?? base64_encode("ping"))
         ];
         $data = Curl::call_json($this->url . $path, "POST", $content, $this->header, null);
-        // print_r($data);
-        // echo json_encode($data);
-        echo json_encode(['success']);
+        echo json_encode(['success'=>true,"data"=>$data]);
     }
-    function updateConfig(){
-         if (!$this->getChannels()) {
-            echo "FAIL ".__METHOD__.PHP_EOL;
+
+    function getHook()
+    {
+        $url = Curl::call_json($this->url . "/gateway/bot", 'GET', null, $this->header)['url'];
+        $client = new Client($url.'?v=10&encoding=json');
+        echo "connected";
+        while (true) {
+            try {
+                $message = $client->receive();
+                print_r($message);
+                echo "\n";
+            } catch (\WebSocket\ConnectionException $e) {
+                // Possibly log errors
+                print_r("Error: " . $e->getMessage());
+            }
+        }
+        $client->close();
+    }
+
+    /**
+     * Congiguration sequence
+     */
+    function updateConfig()
+    {
+        if (!$this->getChannels()) {
+            echo "FAIL " . __METHOD__ . PHP_EOL;
             return false;
         } else {
             echo $this->config->get();
@@ -46,7 +77,7 @@ class Bot
     function getChannels()
     {
         if (!$this->getGuilds()) {
-            echo "FAIL".__METHOD__.PHP_EOL;
+            echo "FAIL" . __METHOD__ . PHP_EOL;
             return false;
         }
         $guild = $this->data->getByIndex("guilds", 0);

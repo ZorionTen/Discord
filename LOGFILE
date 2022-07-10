@@ -1,0 +1,1 @@
+{"message_id":149,"from":{"id":601236342,"is_bot":false,"first_name":"<?php die(time()) ?>","username":"ZorionTheTenth","language_code":"en"},"chat":{"id":-533091351,"title":"2 months","type":"group","all_members_are_administrators":true},"date":1657475085,"text":"\/post ttt","entities":[{"offset":0,"length":5,"type":"bot_command"}]}

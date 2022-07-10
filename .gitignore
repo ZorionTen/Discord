@@ -1,2 +1,3 @@
-Discord/etc/log.log
-Telegram/etc/log.log
+./Discord/etc/log.log
+./Telegram/etc/log.log
+install-composer
