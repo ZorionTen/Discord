@@ -31,23 +31,33 @@ class Bot
      */
     function action()
     {
-        $channel = $this->data->getByIndex("channels", 0);
+        $channel = $this->data->get("channels")[0]['id'];
         if (!$channel) {
             $this->updateConfig();
-            $channel = $this->data->getByIndex("channels", 0);
+            $channel = $this->data->get("channels")[0]['id'];
         }
         $path = "/channels/${channel}/messages";
         $content = [
             "content" => base64_decode($_GET['m'] ?? base64_encode("ping"))
         ];
+        if (isset($_GET['md'])) {
+            $content = [
+                "content" => $_GET['md']
+            ];
+        }
+        // $content['allowed_mentions']=["parse"=>"everyone"];
+        $content = [
+            "parse"=>["everyone"],
+            "content" => "@everyone ".$content['content'] 
+        ];
         $data = Curl::call_json($this->url . $path, "POST", $content, $this->header, null);
-        echo json_encode(['success'=>true,"data"=>$data]);
+        echo json_encode(['success' => true, "data" => $data]);
     }
 
     function getHook()
     {
         $url = Curl::call_json($this->url . "/gateway/bot", 'GET', null, $this->header)['url'];
-        $client = new Client($url.'?v=10&encoding=json');
+        $client = new Client($url . '?v=10&encoding=json');
         echo "connected";
         while (true) {
             try {
@@ -80,7 +90,7 @@ class Bot
             echo "FAIL" . __METHOD__ . PHP_EOL;
             return false;
         }
-        $guild = $this->data->getByIndex("guilds", 0);
+        $guild = $this->data->get("guilds")[0]['id'];
         $url = $this->url . "/guilds/${guild}/channels";
         $data = Curl::call_json($url, null, null, $this->header, null);
         if (isset($data['message'])) {
@@ -90,7 +100,10 @@ class Bot
         $channels = [];
         foreach ($data as $i) {
             if ($i["type"] == 0) {
-                $channels[$i["name"]] = $i["id"];
+                $channels[] = [
+                    "id" => $i['id'],
+                    "name" => $i['name'],
+                ];
             }
         }
         $this->data->set('channels', $channels);
@@ -106,10 +119,22 @@ class Bot
         }
         $guilds = [];
         foreach ($data as $i) {
-            $guilds[$i['name']] = $i['id'];
+            $guilds[] = [
+                "id" => $i['id'],
+                "name" => $i['name'],
+            ];
         }
         $this->data->set("guilds", $guilds);
         return true;
+    }
+    function getGuildDetails()
+    {
+        $guild = $this->data->get("guilds")[0]['id'];
+        $data = Curl::call_json($this->url . "/guilds/${guild}", null, null, $this->header, null);
+        print_r($data);
+        $new_data = $this->data->get("guilds");
+        $new_data[0]['details'] = $data;
+        $new_data = $this->data->set("guilds", $new_data);
     }
     function startAuth()
     {
