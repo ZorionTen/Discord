@@ -1,0 +1,31 @@
+<?php
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+
+define("ROOT", __DIR__);
+
+function loader($class)
+{
+    global $module;
+    $name = ucwords(str_replace("\\", "/", $class)) . ".php";
+    $file = '';
+    if(str_contains($class,"Libs")){
+        $file=ROOT."/".$name;
+    } else {
+        $file=ROOT."/${module}/".$name;
+    }
+    require_once $file;
+}
+spl_autoload_register("loader");
+
+$command=$argv[1]?ucwords($argv[1]):null;
+if($command && file_exists(ROOT."/Console/${command}Command.php")){
+    $command="Console\\${command}Command";
+    $call=new $command;
+    $call->config=new Libs\Config();
+    $call->data=new Libs\Model();
+    $call->argv=$argv;
+    $call->init();
+    $call->run();
+    $call->end();
+}

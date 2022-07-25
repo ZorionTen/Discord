@@ -31,10 +31,10 @@ class Bot
      */
     function action()
     {
-        $channel = $this->data->get("channels")[0]['id'];
+        $channel = $this->data->get("discord")["channels"][0]['id'];
         if (!$channel) {
             $this->updateConfig();
-            $channel = $this->data->get("channels")[0]['id'];
+            $channel = $this->data->get("discord")["channels"][0]['id'];
         }
         $path = "/channels/${channel}/messages";
         $content = [
@@ -90,7 +90,7 @@ class Bot
             echo "FAIL" . __METHOD__ . PHP_EOL;
             return false;
         }
-        $guild = $this->data->get("guilds")[0]['id'];
+        $guild = $this->data->get("discord")["guilds"][0]['id'];
         $url = $this->url . "/guilds/${guild}/channels";
         $data = Curl::call_json($url, null, null, $this->header, null);
         if (isset($data['message'])) {
@@ -106,7 +106,7 @@ class Bot
                 ];
             }
         }
-        $this->data->set('channels', $channels);
+        $this->data->set('discord', $channels);
         return true;
     }
     function getGuilds()
@@ -129,18 +129,17 @@ class Bot
     }
     function getGuildDetails()
     {
-        $guild = $this->data->get("guilds")[0]['id'];
+        $guild = $this->data->get("discord")["guilds"][0]['id'];
         $data = Curl::call_json($this->url . "/guilds/${guild}", null, null, $this->header, null);
         print_r($data);
-        $new_data = $this->data->get("guilds");
+        $new_data = $this->data->get("discord")["guilds"];
         $new_data[0]['details'] = $data;
-        $new_data = $this->data->set("guilds", $new_data);
+        $new_data = $this->data->set("discord", $new_data);
     }
     function startAuth()
     {
         $data = [
             "client_id" => $this->config->get("bot")['client'],
-            // "client_secret"=>$this->config['bot']['secret'],
             "grant_type" => "authorization_code",
             "redirect_uri" => $this->config->get('redirect'),
             "state" => "The_state",

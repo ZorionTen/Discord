@@ -3,8 +3,8 @@ error_reporting(E_ALL);
 ini_set('display_errors', '1');
 
 define("HOSTNAME",$_SERVER["HTTP_HOST"]);
-// die(HOSTNAME);
 define("ROOT", __DIR__);
+define('BASE_URI',"https://".HOSTNAME);
 
 require_once ROOT."/vendor/autoload.php";
 require_once ROOT."/helper.php";
@@ -14,7 +14,12 @@ function loader($class)
 {
     global $module;
     $name = ucwords(str_replace("\\", "/", $class)) . ".php";
-    $file=ROOT."/${module}/".$name;
+    $file = '';
+    if(str_contains($class,"Libs")){
+        $file=ROOT."/".$name;
+    } else {
+        $file=ROOT."/${module}/".$name;
+    }
     require_once $file;
 }
 
@@ -30,11 +35,9 @@ $controller = $url_array[3] ?? "index";
 $action = $url_array[4] ?? "index";
 $controller = ucwords($controller);
 
-// define('BASE_URI','https://discordintigratetelegram.herokuapp.com');
-define('BASE_URI',"https://".HOSTNAME);
 define('MODULE',ROOT."/".$module);
+
 spl_autoload_register("loader");
-// print_r($url_array);
 
 $classPath= "./${module}/Controllers/${controller}.php";
 // echo $classPath;
