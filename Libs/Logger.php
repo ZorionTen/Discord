@@ -6,7 +6,7 @@ class Logger
 {
     public function __construct()
     {
-        $this->file=MODULE."/etc/log.log";
+        $this->file=ROOT."/etc/log.log";
     }
     public function write($data)
     {

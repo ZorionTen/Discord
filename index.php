@@ -46,6 +46,7 @@ if (file_exists($classPath)) {
     $class = new $controller;
     $class->config = new Libs\Config();
     $class->data = new Libs\Model();
+    $class->config = new Libs\Config();
     $class->init();
     echo "<pre>";
     $class->$action();

@@ -12,12 +12,12 @@ class Bot
         $this->logger=new Logger();
     }
     public function init(){
-        $token=base64_decode($this->config->get('bot')['auth_key']);
+        $token=base64_decode($this->config->get('telegram')['auth_key']);
         $this->url = "https://api.telegram.org/bot${token}";
     }
     function index()
     {
-        print_r($this->config->get("bot"));
+        print_r($this->config->get("telegram"));
         // print_r($this->config->config);
         echo "<br/>";
         echo "<a href='/index.php/bot/action'> Action </a>";

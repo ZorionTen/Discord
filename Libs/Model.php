@@ -6,9 +6,10 @@ class Model
 {
     public function __construct()
     {
+        $this->crypto = new Crypto();
         $this->file = ROOT."/etc/data";
         try{
-            $this->config = json_decode($this->crypto->decryptFile(file_get_contents($this->file)), true);
+            $this->data = json_decode($this->crypto->decryptFile(file_get_contents($this->file)), true);
         } catch(\Exception $e){
             $this->data=[];
         }

@@ -14,12 +14,12 @@ class Bot
     function init()
     {
         $this->header = [
-            "Authorization: Bot " . base64_decode($this->config->get("bot")["auth_key"]),
+            "Authorization: Bot " . base64_decode($this->config->get("discord")["auth_key"]),
         ];
     }
     function index()
     {
-        print_r($this->config->get("bot"));
+        print_r($this->config->get("discord"));
         // print_r($this->config->config);
         echo "<a href='/index.php/bot/startauth'> Auth </a>";
         echo "<br/>";
@@ -81,7 +81,7 @@ class Bot
             echo "FAIL " . __METHOD__ . PHP_EOL;
             return false;
         } else {
-            echo $this->config->get();
+            echo json_encode($this->config->get());
         }
     }
     function getChannels()
@@ -124,7 +124,7 @@ class Bot
                 "name" => $i['name'],
             ];
         }
-        $this->data->set("guilds", $guilds);
+        $this->data->set("discord", ['guilds'=>$guilds]);
         return true;
     }
     function getGuildDetails()
